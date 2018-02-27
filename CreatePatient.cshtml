@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "CreatePatient";
+}
+
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+@*<script src="~/JS/jquery-1.11.1.min.js"></script>*@
+<script src="~/JS/jquery-1.7.1.min.js"></script>
+
+ 
+<div class="form-horizontal">
+  <fieldset>
+    <div id="legend">
+      <legend class="">Register New Patient</legend>
+    </div>
+        <p id="Msg" style="display:none" class="btn btn-success">Data Saved Successfully</p>
+
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="username">First Name</label>
+      <div class="controls">
+        <input type="text" required id="fname" class="input-xlarge">
+        <p id="Valid_fname" class="help-block"></p>
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <!-- E-mail -->
+      <label class="control-label" >Last Name</label>
+      <div class="controls">
+        <input type="text" required id="lname" class="input-xlarge">
+        <p id="Valid_lname" class="help-block"></p>
+      </div>
+    </div>
+
+       <div class="control-group">
+      <!-- address -->
+      <label class="control-label">Address </label>
+      <div class="controls">
+        <textarea  id="address" required  class="input-xlarge"></textarea>
+        <p id="Valid_address" class="help-block"></p>
+      </div>
+    </div>
+
+ 
+    <div class="control-group">
+      <!-- Password-->
+      <label class="control-label" >Date Of Birth</label>
+      <div class="controls">
+        <input type="date" onchange="checkDOB()" required id="dtDate"  class="input-xlarge">
+        <p id="Valid_dtDate" class="help-block"></p>
+      </div>
+    </div>
+ 
+     
+    <div class="control-group">
+      <!-- Button -->
+      <div class="controls">
+        <button class="btn btn-success" onclick="SaveData()">Register</button>
+          
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<script>
+
+    function checkDOB() {
+        var dateString = $('#dtDate').val();
+        var myDate = new Date(dateString);
+        var today = new Date();
+        if (myDate > today) {
+            $('#Valid_dtDate').html("Date Selected More than Today");
+            return false;
+        }
+    }
+    function validations() {
+        
+
+        if ($('#fname').val()=="") {
+            $('#Valid_fname').html("Please enter Patient name");
+            return false;
+        }
+        $('#Valid_fname').html("");
+        if ($('#lname').val() == "") {
+            $('#Valid_lname').html("Please enter Patient name");
+            return false;
+        }
+        $('#Valid_lname').html("");
+        if ($('#address').val() == "") {
+            $('#Valid_address').html("Please enter Patient address");
+            return false;
+        }
+        $('#Valid_lname').html("");
+        if ($('#dtDate').val() == "") {
+            $('#Valid_dtDate').html("Please enter Patient Date");
+            return false;
+        }
+        $('#Valid_dtDate').html("");
+    }
+    function SaveData() {
+    
+        var validate = validations();
+        if (validate==false) {
+            return false;
+        }
+         
+
+        $.ajax({
+            type: 'Post',
+            //dataType: 'Json',
+            data: {
+                Fname:$('#fname').val(),
+                Lname:$('#lname').val(),
+                Address: $('#address').val(),
+                DateBirth: $('#dtDate').val()
+            },
+            url: '@Url.Action("SavePatientData", "Home")',
+            success: function (data) {
+                $('#Msg').show();
+                
+            },
+            error: function (data) {
+               // alert('Error');
+            }
+        });
+        //if ($('#dtDate').val() === '') {
+        //    alert('Start date is now set to empty string, do work here');
+        //} else {
+        //    alert('success');
+        //}
+    }
+
+   
+
+</script>

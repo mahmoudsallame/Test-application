@@ -1,0 +1,35 @@
+﻿@model IEnumerable<App_Hospital.Models.tbl_Patients>
+
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+         <th>Patient Code</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Address</th>
+        <th>Date Of Birth</th>
+      </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+{
+    <tr>
+        
+         <th>@item.Patient_ID</th>
+        <td>@item.Patient_Fanme</td>
+        <td>@item.Patient_Lname</td>
+        <td>@item.Patient_Address</td>
+          <td>@item.Patient_Date.ToShortDateString()</td>
+      </tr>
+}
+      
+      
+        
+
+    </tbody>
+  </table>
